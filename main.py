@@ -4,7 +4,6 @@ from collections import Counter
 import math as math
 import random as random
 
-NUMBER_OF_BIRTHDAYS = 23
 all_birthdays = []
 
 
@@ -61,10 +60,10 @@ def display_duplicate_birthdays() -> None:
             print(f"{month.title()} {day}", end=", ")
 
 
-def get_all_birthdays(num_birthdays) -> None:
+def get_all_birthdays(total_birthdays) -> None:
     """ Compiles all birthdays to a list. """
 
-    for day in range(0, num_birthdays):
+    for day in range(0, total_birthdays):
         all_birthdays.append(generate_birthday())
 
 
@@ -73,7 +72,7 @@ def single_iteration() -> None:
 
     number_of_birthdays = int(input("Enter the number of birthdays to generate "
                                     "between 1 and 100 > "))
-    get_all_birthdays(num_birthdays=number_of_birthdays)
+    get_all_birthdays(total_birthdays=number_of_birthdays)
 
     display_birthdays()
     display_duplicate_birthdays()
@@ -82,13 +81,13 @@ def single_iteration() -> None:
 def probability_calculation() -> None:
     """ Calculates the probability of many iterations. """
     global all_birthdays
-    global NUMBER_OF_BIRTHDAYS
+    global num_birthdays
 
     notify_list = []
 
     duplicate_counter = 0
 
-    iterations = int(input("How many iterations would you like to simulate? "))
+    iterations = int(input("Enter the number of iterations to simulate > "))
 
     # Segments the iterations displayed.
     tenth_of_iterations = math.floor(iterations / 10)
@@ -99,7 +98,7 @@ def probability_calculation() -> None:
         all_birthdays = []
 
         # Check if duplicate
-        get_all_birthdays(num_birthdays=NUMBER_OF_BIRTHDAYS)
+        get_all_birthdays(total_birthdays=num_birthdays)
 
         if len(get_duplicate_birthdays()) > 0:
             duplicate_counter += 1
@@ -115,10 +114,10 @@ def probability_calculation() -> None:
 
 # Displays Header
 print("Welcome to the Birthday Paradox program!\n")
-print("The first half of the program will generate a list of birthdays,")
-print("and display how many duplicates there are.\n")
-print("The second half of this program will display the probability")
-print("of at least one duplicate birthday in a group of 23 people.\n")
+print("This program calculates the probability of a duplicate birthday.")
+
+num_birthdays = int(input("Enter the amount of birthdays to "
+                          "simulate each iteration > "))
 
 single_iteration()
 probability_calculation()
