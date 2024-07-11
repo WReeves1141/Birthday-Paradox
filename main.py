@@ -1,14 +1,16 @@
 """ Programmer: Walter Reeves """
 from collections import Counter
 
-import math
-import random
+import math as math
+import random as random
 
 all_birthdays = []
+NUMBER_OF_BIRTHDAYS = 23
 
 
 def generate_birthday() -> tuple:
     """ Pseudo-randomly generates a birthday. """
+
     month_days = {"January": 31, "February": 28,
                   "March": 31, "April": 30, "May": 31, "June": 30,
                   "July": 31, "August": 31, "September": 30,
@@ -36,13 +38,16 @@ def display_birthdays() -> None:
 def get_duplicate_birthdays() -> list:
     """ Gets the duplicate birthdays. """
     global all_birthdays
+
     return [day for day, num_duplicates in
             Counter(all_birthdays).items() if num_duplicates > 1]
 
 
 def display_duplicate_birthdays() -> None:
     """ Displays the duplicate birthdays. """
+
     duplicates = get_duplicate_birthdays()
+
     print(f"In this simulation there are {len(duplicates)} "
           f"duplicate birthdays.\n")
 
@@ -58,43 +63,62 @@ def display_duplicate_birthdays() -> None:
 
 def get_all_birthdays(num_birthdays) -> None:
     """ Compiles all birthdays to a list. """
+
     for day in range(0, num_birthdays):
         all_birthdays.append(generate_birthday())
 
 
+def single_iteration() -> None:
+    """Displays the single iteration results"""
+
+    number_of_birthdays = int(input("Enter the number of birthdays to generate "
+                                    "between 1 and 100 > "))
+    get_all_birthdays(num_birthdays=number_of_birthdays)
+
+    display_birthdays()
+    display_duplicate_birthdays()
+
+
+def probability_calculation() -> None:
+    """ Calculates the probability of many iterations. """
+    global all_birthdays
+    global NUMBER_OF_BIRTHDAYS
+
+    notify_list = []
+
+    duplicate_counter = 0
+
+    iterations = int(input("How many iterations would you like to simulate? "))
+
+    # Segments the iterations displayed.
+    tenth_of_iterations = math.floor(iterations / 10)
+    for num in range(1, 11):
+        notify_list.append(tenth_of_iterations * num)
+
+    for instance in range(0, iterations):
+        all_birthdays = []
+
+        # Check if duplicate
+        get_all_birthdays(num_birthdays=NUMBER_OF_BIRTHDAYS)
+
+        if len(get_duplicate_birthdays()) > 0:
+            duplicate_counter += 1
+
+        if instance in notify_list:
+            print(instance)
+
+    duplicate_probability = duplicate_counter / iterations * 100
+
+    print(f"the probability of getting a duplicate in ", end="")
+    print(f"{iterations} simulations is {round(duplicate_probability, 2)}%.")
+
+
+# Displays Header
 print("Welcome to the Birthday Paradox program!\n")
 print("The first half of the program will generate a list of birthdays,")
 print("and display how many duplicates there are.\n")
 print("The second half of this program will display the probability")
 print("of at least one duplicate birthday in a group of 23 people.\n")
-#
-# # First Half
-# number_of_birthdays = int(input("Enter the number of birthdays to generate "
-#                           "between 1 and 100 > "))
-#
-# get_all_birthdays()
-#
-# display_birthdays()
-# display_duplicate_birthdays()
 
-# Second Half
-iterations = int(input("How many iterations would you like to simulate? "))
-
-number_of_birthdays = 23
-duplicate_counter = 0
-
-for instance in range(0, iterations):
-    all_birthdays = []
-
-    # See if duplicate
-    get_all_birthdays(num_birthdays=number_of_birthdays)
-
-    if len(get_duplicate_birthdays()) > 0:
-        duplicate_counter += 1
-
-    # for birthday in
-    # duplicate_probability =
-
-# print(duplicate_probability)
-# print(1 - duplicate_probability)
-
+single_iteration()
+probability_calculation()
