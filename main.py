@@ -4,8 +4,8 @@ from collections import Counter
 import math as math
 import random as random
 
-all_birthdays = []
 NUMBER_OF_BIRTHDAYS = 23
+all_birthdays = []
 
 
 def generate_birthday() -> tuple:
